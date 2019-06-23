@@ -76,6 +76,10 @@
              ;; symbol
              (seq ?' ?| (+ any) ?|)
              (seq ?' (1+ (or (syntax word) (syntax symbol))))
+             ;; NOTE(vkz) appears the order of these rules matter, so
+             ;; highlighting :tags with `font-lock-add-keywords'
+             ;; breaks all Racket highlighting. Forced to do it here.
+             (seq symbol-start ?: (1+ (or (syntax word) (syntax symbol))))
              (seq "#\\" (1+ (or (syntax word) (syntax symbol))))))
        . racket-selfeval-face)
 
@@ -130,9 +134,7 @@
                              (? (any "-+"))
                              (1+ (any "0-7"))))))
               symbol-end))
-       . racket-selfeval-face)
-
-      ))
+       . racket-selfeval-face)))
   "Self-evals")
 
 (defconst racket-font-lock-keywords-2
